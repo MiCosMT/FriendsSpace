@@ -246,7 +246,7 @@ export default function AdsPage() {
               : `${ads.length} anuncio${ads.length !== 1 ? "s" : ""}`}
           </Typography>
           <Typography sx={{ color: theme.mutedText, fontSize: "0.82rem" }}>
-            Intereses:{" "}
+            Filtrando por:{" "}
             <span style={{ fontWeight: 700, color: theme.primaryText }}>
               {getInterestText()}
             </span>

@@ -71,7 +71,9 @@ export default function UserBar() {
     if (!loggedUser?.id) return;
     api
       .get("/messages/unread/total")
-      .then((res) => { if (res.data.ok) setUnreadMessages(res.data.count); })
+      .then((res) => {
+        if (res.data.ok) setUnreadMessages(res.data.count);
+      })
       .catch(console.error);
   }, [loggedUser?.id, setUnreadMessages]);
 
@@ -93,8 +95,11 @@ export default function UserBar() {
       }
     };
     const onLeidos = () => {
-      api.get("/messages/unread/total")
-        .then((res) => { if (res.data.ok) setUnreadMessages(res.data.count); })
+      api
+        .get("/messages/unread/total")
+        .then((res) => {
+          if (res.data.ok) setUnreadMessages(res.data.count);
+        })
         .catch(console.error);
     };
     socket.on("nueva_solicitud", inc);
@@ -109,17 +114,34 @@ export default function UserBar() {
       socket.off("nuevo_mensaje", onNuevoMensaje);
       socket.off("mensajes_leidos", onLeidos);
     };
-  }, [socket, estaEnRequests, isInChatsPage, incrementUnread, loggedUser?.id, setUnreadMessages]);
+  }, [
+    socket,
+    estaEnRequests,
+    isInChatsPage,
+    incrementUnread,
+    loggedUser?.id,
+    setUnreadMessages,
+  ]);
 
-  const chatsIcon = unreadMessages > 0 && !isInChatsPage ? (
-    <Badge
-      badgeContent={unreadMessages > 99 ? "99+" : unreadMessages}
-      color="error"
-      sx={{ "& .MuiBadge-badge": { fontSize: "0.6rem", minWidth: 15, height: 15, padding: "0 3px" } }}
-    >
+  const chatsIcon =
+    unreadMessages > 0 && !isInChatsPage ? (
+      <Badge
+        badgeContent={unreadMessages > 99 ? "99+" : unreadMessages}
+        color="error"
+        sx={{
+          "& .MuiBadge-badge": {
+            fontSize: "0.6rem",
+            minWidth: 15,
+            height: 15,
+            padding: "0 3px",
+          },
+        }}
+      >
+        <ChatBubbleOutlineIcon />
+      </Badge>
+    ) : (
       <ChatBubbleOutlineIcon />
-    </Badge>
-  ) : <ChatBubbleOutlineIcon />;
+    );
 
   const navItems = [
     {
@@ -332,36 +354,38 @@ export default function UserBar() {
 
         <Box sx={{ flex: 1 }} />
 
-        <Tooltip title="Notificaciones">
-          <IconButton
-            onClick={() => navigate("/app/requests")}
-            sx={{
-              width: 36,
-              height: 36,
-              borderRadius: "10px",
-              color: estaEnRequests ? accent : fg,
-              background: estaEnRequests ? activeBg : "transparent",
-              border: `1px solid ${estaEnRequests ? accent + "50" : "transparent"}`,
-              transition: "all 0.15s",
-              "&:hover": { background: hoverBg, color: accent },
-            }}
-          >
-            <Badge
-              badgeContent={unreadCount}
-              color="error"
+        {loggedUser?.role != "DEVELOPER" && (
+          <Tooltip title="Notificaciones">
+            <IconButton
+              onClick={() => navigate("/app/requests")}
               sx={{
-                "& .MuiBadge-badge": {
-                  fontSize: "0.6rem",
-                  minWidth: 15,
-                  height: 15,
-                  padding: "0 3px",
-                },
+                width: 36,
+                height: 36,
+                borderRadius: "10px",
+                color: estaEnRequests ? accent : fg,
+                background: estaEnRequests ? activeBg : "transparent",
+                border: `1px solid ${estaEnRequests ? accent + "50" : "transparent"}`,
+                transition: "all 0.15s",
+                "&:hover": { background: hoverBg, color: accent },
               }}
             >
-              <NotificationsIcon sx={{ fontSize: 19 }} />
-            </Badge>
-          </IconButton>
-        </Tooltip>
+              <Badge
+                badgeContent={unreadCount}
+                color="error"
+                sx={{
+                  "& .MuiBadge-badge": {
+                    fontSize: "0.6rem",
+                    minWidth: 15,
+                    height: 15,
+                    padding: "0 3px",
+                  },
+                }}
+              >
+                <NotificationsIcon sx={{ fontSize: 19 }} />
+              </Badge>
+            </IconButton>
+          </Tooltip>
+        )}
 
         {isMobile && (
           <IconButton
