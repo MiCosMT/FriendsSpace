@@ -44,6 +44,18 @@ class ConnectionService {
     });
   }
 
+  async getConnectionById(connectionId) {
+    return await models.connection.findOne({
+      where: { id: connectionId },
+      include: [
+        {
+          model: models.user_connection,
+          as: "user_connections",
+        },
+      ],
+    });
+  }
+
   async getConnectionUsers(connectionId) {
     const userConns = await models.user_connection.findAll({
       where: { connection_id: connectionId },
@@ -68,7 +80,10 @@ class ConnectionService {
       );
       await models.user_connection.update(
         { blocked_by: userId },
-        { where: { connection_id: connectionId, user_id: userId }, transaction },
+        {
+          where: { connection_id: connectionId, user_id: userId },
+          transaction,
+        },
       );
       await transaction.commit();
       return true;

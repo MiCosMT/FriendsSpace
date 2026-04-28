@@ -129,7 +129,7 @@ export default function RequestCard({ request, onAccept, onReject, onDelete }) {
       : " ha rechazado tu solicitud de amistad.";
   };
 
-  const puedeReportar = soyReceptor && pendiente && !esReporte;
+  const puedeReportar = soyReceptor && pendiente && !esReporte && loggedUser.role !== "ADMIN" && loggedUser.role !== "DEVELOPER";
 
   return (
     <>
