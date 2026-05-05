@@ -23,6 +23,7 @@ const cookieOpts = {
   httpOnly: true,
   secure: process.env.NODE_ENV === "production",
   sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
+  path: "/",
   maxAge: 1000 * 60 * 60,
 };
 
@@ -159,9 +160,25 @@ class UserController {
   }
 
   async logout(req, res) {
-    return res
-      .clearCookie("access_token")
-      .json({ ok: true, mensaje: "Sesion terminada" });
+    try {
+      const clearCookieOpts = {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
+        path: "/",
+        maxAge: 0,
+        expires: new Date(0),
+      };
+
+      return res
+        .clearCookie("access_token", clearCookieOpts)
+        .status(200)
+        .json({ ok: true, mensaje: "Sesion terminada" });
+    } catch (err) {
+      return res
+        .status(500)
+        .json({ ok: false, mensaje: "Error al cerrar sesión" });
+    }
   }
 
   async checkAuth(req, res) {
