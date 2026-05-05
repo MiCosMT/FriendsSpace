@@ -4,6 +4,15 @@ const models = initModels(sequelize);
 const { Op, literal } = require("sequelize");
 
 class ConnectionService {
+  sanitizeLastMessage(message) {
+    if (!message) return message;
+    const msg = message && typeof message.toJSON === "function" ? message.toJSON() : message;
+    if (msg.deleted) {
+      return { ...msg, body: null, url: null };
+    }
+    return msg;
+  }
+
   async getAllMyConnections(userId) {
     const misConexiones = await models.user_connection.findAll({
       where: { user_id: userId },
@@ -13,7 +22,7 @@ class ConnectionService {
     const idsDeConexiones = misConexiones.map((uc) => uc.connection_id);
     if (idsDeConexiones.length === 0) return [];
 
-    return await models.connection.findAll({
+    const connections = await models.connection.findAll({
       where: {
         status: { [Op.in]: ["ACTIVE", "BLOCKED"] },
         id: idsDeConexiones,
@@ -34,12 +43,19 @@ class ConnectionService {
           model: models.message,
           as: "messages",
           required: false,
-          attributes: ["id", "body", "type", "user_id", "createdAt", "deleted"],
+          attributes: ["id", "body", "type", "url", "user_id", "createdAt", "deleted"],
           order: [["createdAt", "DESC"]],
           limit: 1,
           separate: true,
         },
       ],
+    });
+
+    return connections.map((connection) => {
+      if (connection.messages?.length) {
+        connection.messages = connection.messages.map((msg) => this.sanitizeLastMessage(msg));
+      }
+      return connection;
     });
   }
 
