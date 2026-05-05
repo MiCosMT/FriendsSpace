@@ -23,10 +23,9 @@ const corsOptions = {
   origin: function (origin, callback) {
     if (
       !origin ||
-      origin === FRONTEND_URL ||
       origin.endsWith(".vercel.app") ||
       origin.endsWith(".amazonaws.com") ||
-      origin === "http://localhost:5173"
+      origin.includes("localhost")
     ) {
       callback(null, true);
     } else {
