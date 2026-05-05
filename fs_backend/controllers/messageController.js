@@ -157,7 +157,7 @@ class MessageController {
     try {
       const { messageId } = req.params;
       const msg = await messageService.getMessageById(messageId);
-      if (!msg || !msg.url) return res.status(404).json({ ok: false });
+      if (!msg || !msg.url || msg.deleted) return res.status(404).json({ ok: false });
       const axios = require("axios");
       const response = await axios.get(msg.url, { responseType: "arraybuffer" });
       const fileName = msg.body || "archivo";

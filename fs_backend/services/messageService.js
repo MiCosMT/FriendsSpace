@@ -17,15 +17,33 @@ const replyInclude = {
 };
 
 class MessageService {
+  sanitizeMessage(message) {
+    const msg = message && typeof message.toJSON === "function" ? message.toJSON() : message;
+    if (!msg) return msg;
+
+    if (msg.deleted) {
+      msg.body = null;
+      msg.url = null;
+    }
+
+    if (msg.parent_message && msg.parent_message.deleted) {
+      msg.parent_message.body = null;
+      msg.parent_message.url = null;
+    }
+
+    return msg;
+  }
+
   async getMessages(connectionId, limit = 30, beforeId = null) {
     const where = { connection_id: connectionId };
     if (beforeId) where.id = { [Op.lt]: beforeId };
-    return await models.message.findAll({
+    const messages = await models.message.findAll({
       where,
       include: [authorInclude, replyInclude],
       order: [["id", "DESC"]],
       limit,
     });
+    return messages.map((message) => this.sanitizeMessage(message));
   }
 
   async createMessage(data) {
@@ -40,7 +58,7 @@ class MessageService {
     if (!msg) throw new Error("Mensaje no encontrado");
     if (msg.user_id !== userId) throw new Error("No tienes permiso para borrar este mensaje");
     return await models.message.update(
-      { deleted: true, body: null, url: null },
+      { deleted: true },
       { where: { id: messageId } },
     );
   }
@@ -56,7 +74,8 @@ class MessageService {
   }
 
   async getMessageById(messageId) {
-    return await models.message.findByPk(messageId, { include: [authorInclude, replyInclude] });
+    const message = await models.message.findByPk(messageId, { include: [authorInclude, replyInclude] });
+    return this.sanitizeMessage(message);
   }
 
   async userBelongsToConnection(userId, connectionId) {

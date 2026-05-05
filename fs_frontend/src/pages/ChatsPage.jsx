@@ -474,6 +474,13 @@ export default function ChatsPage() {
             : m,
         ),
       );
+      setConversationList((prev) =>
+        prev.map((c) =>
+          c.lastMessage?.id === messageId
+            ? { ...c, lastMessage: { ...c.lastMessage, deleted: true, body: null, url: null } }
+            : c,
+        ),
+      );
     };
 
     socket.on("nuevo_mensaje", onIncomingMessage);

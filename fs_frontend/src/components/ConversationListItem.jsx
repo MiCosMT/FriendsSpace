@@ -47,6 +47,7 @@ export default function ConversationListItem({
     if (!lastMessage) return null;
     const isMine = lastMessage.user_id === loggedUser?.id;
     const prefix = isMine ? "Tú: " : "";
+    if (lastMessage.deleted) return `${prefix}Mensaje eliminado`;
     switch (lastMessage.type) {
       case "IMAGE":
         return `${prefix}📷 Imagen`;
