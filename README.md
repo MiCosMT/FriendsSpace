@@ -3,7 +3,6 @@
 [![Node.js](https://img.shields.io/badge/Node.js-18+-green.svg)](https://nodejs.org/)
 [![React](https://img.shields.io/badge/React-19.2.0-blue.svg)](https://reactjs.org/)
 [![MySQL](https://img.shields.io/badge/MySQL-8.0+-orange.svg)](https://www.mysql.com/)
-[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 Una plataforma social moderna para conectar con personas que comparten tus intereses. Encuentra amigos, comparte anuncios y comunícate a través de un sistema de mensajería en tiempo real.
 
