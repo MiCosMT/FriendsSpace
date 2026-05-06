@@ -20,30 +20,30 @@ ARQUITECTURA DEL PROYECTO
 Estructura de Carpetas
 
 FriendsSpace/
-├── fs_backend/              # Backend Node.js + Express
-│   ├── config/              # Configuraciones (DB, Cloudinary, etc.)
-│   ├── controllers/         # Lógica de negocio
-│   ├── models/              # Modelos Sequelize
-│   ├── routes/              # Rutas API REST
-│   ├── services/            # Servicios reutilizables
-│   ├── middlewares/         # Autenticación y validaciones
-│   ├── validations/         # Esquemas de validación
-│   ├── utils/               # Utilidades y helpers
-│   ├── request/             # Tests con REST Client
-│   └── index.js             # Punto de entrada
-│
-└── fs_frontend/             # Frontend React + Vite
-    ├── src/
-    │   ├── components/      # Componentes reutilizables
-    │   ├── pages/          # Páginas/vistas
-    │   ├── context/        # Context API (Socket, Error)
-    │   ├── hooks/          # Hooks personalizados
-    │   ├── store/          # Zustand stores (Auth, Theme)
-    │   ├── utils/          # Utilidades y API calls
-    │   ├── assets/         # Recursos estáticos
-    │   └── App.jsx         # Componente raíz
-    ├── public/             # Archivos públicos
-    └── vite.config.js      # Configuración de Vite
++-- fs_backend/              # Backend Node.js + Express
+   +-- config/              # Configuraciones (DB, Cloudinary, etc.)
+   +-- controllers/         # Lógica de negocio
+   +-- models/              # Modelos Sequelize
+   +-- routes/              # Rutas API REST
+   +-- services/            # Servicios reutilizables
+   +-- middlewares/         # Autenticación y validaciones
+   +-- validations/         # Esquemas de validación
+   +-- utils/               # Utilidades y helpers
+   +-- request/             # Tests con REST Client
+   +-- index.js             # Punto de entrada
+
++-- fs_frontend/             # Frontend React + Vite
+    +-- src/
+       +-- components/      # Componentes reutilizables
+       +-- pages/          # Páginas/vistas
+       +-- context/        # Context API (Socket, Error)
+       +-- hooks/          # Hooks personalizados
+       +-- store/          # Zustand stores (Auth, Theme)
+       +-- utils/          # Utilidades y API calls
+       +-- assets/         # Recursos estáticos
+       +-- App.jsx         # Componente raíz
+    +-- public/             # Archivos públicos
+    +-- vite.config.js      # Configuración de Vite
 
 TECNOLOGIAS PRINCIPALES
 
@@ -189,11 +189,11 @@ POST   /api/messages            - Enviar mensaje
 
 EVENTOS WEBSOCKET
 
-// Cliente → Servidor
-socket.emit('send_message', { to: userId, message: '¡Hola!' });
+// Cliente ? Servidor
+socket.emit('send_message', { to: userId, message: 'Hola!' });
 socket.emit('typing', { to: userId, isTyping: true });
 
-// Servidor → Cliente
+// Servidor ? Cliente
 socket.on('receive_message', (data) => { /* manejar mensaje */ });
 socket.on('user_typing', (data) => { /* mostrar indicador */ });
 socket.on('new_connection', (data) => { /* actualizar lista */ });
@@ -249,32 +249,4 @@ CARACTERISTICAS DE UI
 - Sistema de notificaciones de error
 - Componentes reutilizables y modulares
 
-¡Gracias por usar FriendsSpace! 🌟
-
----
-
-## 🤝 Contribuir
-
-Las contribuciones son bienvenidas. Por favor:
-
-1. Fork el proyecto
-2. Crea una rama para tu feature (`git checkout -b feature/AmazingFeature`)
-3. Commit tus cambios (`git commit -m 'Add some AmazingFeature'`)
-4. Push a la rama (`git push origin feature/AmazingFeature`)
-5. Abre un Pull Request
-
----
-
-## ✅ Estado del Proyecto
-
-- ✅ Autenticación completa
-- ✅ CRUD de usuarios
-- ✅ Sistema de intereses
-- ✅ Anuncios con imágenes
-- ✅ Conexiones entre usuarios
-- ✅ Mensajería en tiempo real
-- 📋 Tests unitarios (pendiente)
-
----
-
-**Última actualización:** Mayo 2026
+Gracias por usar FriendsSpace! ??
