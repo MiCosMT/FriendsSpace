@@ -36,7 +36,6 @@ FriendsSpace/
 │   ├── middlewares/         # Autenticación y validaciones
 │   ├── validations/         # Esquemas de validación
 │   ├── utils/               # Utilidades y helpers
-│   ├── request/             # Tests con REST Client
 │   └── index.js             # Punto de entrada
 │
 └── fs_frontend/             # Frontend React + Vite
@@ -183,6 +182,82 @@ npm run build
 
 ---
 
+## 🧪 Testing
+
+La aplicación está completamente preparada para testing con frameworks modernos:
+
+### Backend (Jest + Supertest)
+```bash
+cd fs_backend
+
+# Ejecutar tests una sola vez
+npm test
+
+# Modo observación (se re-ejecutan al cambiar código)
+npm run test:watch
+
+# Generar reporte de cobertura
+npm run test:coverage
+```
+
+**Ubicación de tests:** `fs_backend/__tests__/`
+
+### Frontend (Vitest + React Testing Library)
+```bash
+cd fs_frontend
+
+# Ejecutar tests una sola vez
+npm test
+
+# Modo observación con UI interactiva
+npm run test:watch
+
+# Generar reporte de cobertura
+npm run test:coverage
+```
+
+**Ubicación de tests:** `fs_frontend/src/__tests__/`
+
+### Ejemplos de Tests Incluidos
+
+**Backend - Test de Servicio:**
+```javascript
+const userService = require('../../services/userService');
+
+describe('User Service', () => {
+  test('should create a user', async () => {
+    const user = await userService.createUser({
+      email: 'test@test.com',
+      password: 'pass123'
+    });
+    expect(user).toHaveProperty('id');
+  });
+});
+```
+
+**Frontend - Test de Componente:**
+```javascript
+import { describe, it, expect } from 'vitest';
+import { render, screen } from '@testing-library/react';
+import UserCard from '../../components/UserCard';
+
+describe('UserCard Component', () => {
+  it('should render user card with name', () => {
+    render(<UserCard name="John" />);
+    expect(screen.getByText('John')).toBeTruthy();
+  });
+});
+```
+
+### Reportes de Cobertura
+Los reportes se generan en:
+- Backend: `fs_backend/coverage/index.html`
+- Frontend: `fs_frontend/coverage/index.html`
+
+Para ver el reporte visual, abre el archivo `index.html` en tu navegador.
+
+---
+
 ## 📚 API Endpoints
 
 ### Usuarios
@@ -284,7 +359,6 @@ VITE_API_URL=http://localhost:3000
 | Edit Profile | /user/edit | Editar perfil propio |
 | Ads | /ads | Tablón de anuncios |
 | Search Friends | /search | Buscar nuevos amigos |
-| Requests | /requests | Solicitudes de conexión |
 | Chats | /chats | Mensajería |
 | Admins | /admins | Gestión de admins (DEVELOPER) |
 | Banned | /banned | Usuarios baneados |

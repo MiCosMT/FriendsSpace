@@ -29,7 +29,6 @@ FriendsSpace/
    +-- middlewares/         # Autenticación y validaciones
    +-- validations/         # Esquemas de validación
    +-- utils/               # Utilidades y helpers
-   +-- request/             # Tests con REST Client
    +-- index.js             # Punto de entrada
 
 +-- fs_frontend/             # Frontend React + Vite
@@ -157,6 +156,77 @@ USO
 6. Conectar: Busca usuarios con intereses similares y envía solicitudes
 7. Chatear: Usa el sistema de mensajería en tiempo real
 
+TESTING
+
+La aplicación está completamente preparada para testing con frameworks modernos:
+
+BACKEND (Jest + Supertest)
+
+cd fs_backend
+
+# Ejecutar tests una sola vez
+npm test
+
+# Modo observación (se re-ejecutan al cambiar código)
+npm run test:watch
+
+# Generar reporte de cobertura
+npm run test:coverage
+
+Ubicación de tests: fs_backend/__tests__/
+
+FRONTEND (Vitest + React Testing Library)
+
+cd fs_frontend
+
+# Ejecutar tests una sola vez
+npm test
+
+# Modo observación con UI interactiva
+npm run test:watch
+
+# Generar reporte de cobertura
+npm run test:coverage
+
+Ubicación de tests: fs_frontend/src/__tests__/
+
+EJEMPLOS DE TESTS
+
+Backend - Test de Servicio:
+
+const userService = require('../../services/userService');
+
+describe('User Service', () => {
+  test('should create a user', async () => {
+    const user = await userService.createUser({
+      email: 'test@test.com',
+      password: 'pass123'
+    });
+    expect(user).toHaveProperty('id');
+  });
+});
+
+Frontend - Test de Componente:
+
+import { describe, it, expect } from 'vitest';
+import { render, screen } from '@testing-library/react';
+import UserCard from '../../components/UserCard';
+
+describe('UserCard Component', () => {
+  it('should render user card with name', () => {
+    render(<UserCard name="John" />);
+    expect(screen.getByText('John')).toBeTruthy();
+  });
+});
+
+REPORTES DE COBERTURA
+
+Los reportes se generan en:
+- Backend: fs_backend/coverage/index.html
+- Frontend: fs_frontend/coverage/index.html
+
+Para ver el reporte visual, abre el archivo index.html en tu navegador.
+
 ENDPOINTS DE LA API
 
 Usuarios
@@ -234,7 +304,6 @@ PAGINAS PRINCIPALES
 - Editar Perfil: /user/edit - Editar perfil propio
 - Anuncios: /ads - Tablón de anuncios
 - Buscar Amigos: /search - Buscar nuevos amigos
-- Solicitudes: /requests - Solicitudes de conexión
 - Chats: /chats - Mensajería
 - Admins: /admins - Gestión de admins (DEVELOPER)
 - Baneados: /banned - Usuarios baneados
