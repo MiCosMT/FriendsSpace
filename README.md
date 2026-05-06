@@ -89,7 +89,7 @@ FriendsSpace/
 
 ### 1. **Autenticación y Usuarios**
 - Registro e inicio de sesión seguro
-- Recuperación de contraseña
+- Cambiar de contraseña
 - Perfiles de usuario con foto, bio, objetivos
 - Roles: USER, ADMIN, DEVELOPER
 - Sistema de baneos para moderación
