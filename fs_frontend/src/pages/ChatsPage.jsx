@@ -110,6 +110,8 @@ export default function ChatsPage() {
   const filePickerRef = useRef(null);
   const messagesContainerRef = useRef(null);
   const processedMessageIds = useRef(new Set());
+  const openedConversationRef = useRef(null);
+  const openedConversationConnectionIdRef = useRef(null);
 
   const sidebarBg = theme.sidebarBg;
   const chatAreaBg = theme.name === "dark" ? "#1e1e1e" : "#f9f9f9";
@@ -393,6 +395,11 @@ export default function ChatsPage() {
   };
 
   useEffect(() => {
+    openedConversationRef.current = openedConversation;
+    openedConversationConnectionIdRef.current = openedConversation?.connectionId || null;
+  }, [openedConversation]);
+
+  useEffect(() => {
     if (!socket) return;
     const onInvestigacionFinalizada = ({ connectionId, esReporte }) => {
       setConversationList((prev) =>
@@ -537,6 +544,9 @@ export default function ChatsPage() {
             }
           : prev,
       );
+      if (openedConversationRef.current?.connectionId === connectionId) {
+        loadMessages(connectionId);
+      }
     };
     socket.on("conexion_bloqueada", onConexionBloqueada);
     socket.on("conexion_activada", onConexionActivada);
@@ -554,11 +564,12 @@ export default function ChatsPage() {
 
   useEffect(() => {
     return () => {
-      if (socket && openedConversation?.connectionId) {
-        socket.emit("leave_chat", openedConversation.connectionId);
+      const currentChatId = openedConversationConnectionIdRef.current;
+      if (socket && currentChatId) {
+        socket.emit("leave_chat", currentChatId);
       }
     };
-  }, [socket, openedConversation]);
+  }, [socket]);
 
   useEffect(() => {
     const unreadByChatRef = { current: {} };
@@ -728,28 +739,39 @@ export default function ChatsPage() {
     if (!openedConversation) return;
     try {
       await api.put(`/connections/${openedConversation.connectionId}/activate`);
-      setConversationList((prev) =>
-        prev.map((c) =>
-          c.connectionId === openedConversation.connectionId
+      const response = await api.get("/connections");
+      if (response.data.ok) {
+        const builtList = buildConversationList(response.data.datos, loggedUser.id);
+        setConversationList(builtList);
+        const updatedConversation = builtList.find(
+          (c) => c.connectionId === openedConversation.connectionId,
+        );
+        if (updatedConversation) setOpenedConversation(updatedConversation);
+      } else {
+        setConversationList((prev) =>
+          prev.map((c) =>
+            c.connectionId === openedConversation.connectionId
+              ? {
+                  ...c,
+                  connectionStatus: "ACTIVE",
+                  isBlocked: false,
+                  iBlockedThem: false,
+                }
+              : c,
+          ),
+        );
+        setOpenedConversation((prev) =>
+          prev?.connectionId === openedConversation.connectionId
             ? {
-                ...c,
+                ...prev,
                 connectionStatus: "ACTIVE",
                 isBlocked: false,
                 iBlockedThem: false,
               }
-            : c,
-        ),
-      );
-      setOpenedConversation((prev) =>
-        prev?.connectionId === openedConversation.connectionId
-          ? {
-              ...prev,
-              connectionStatus: "ACTIVE",
-              isBlocked: false,
-              iBlockedThem: false,
-            }
-          : prev,
-      );
+            : prev,
+        );
+      }
+      loadMessages(openedConversation.connectionId);
     } catch (error) {
       showError(
         "No se pudo desbloquear al usuario.",
@@ -861,6 +883,7 @@ export default function ChatsPage() {
   const handleBackToList = () => {
     if (openedConversation) {
       markChatAsRead(openedConversation.connectionId);
+      if (socket) socket.emit("leave_chat", openedConversation.connectionId);
     }
     setOpenedConversation(null);
     setMessageList([]);
