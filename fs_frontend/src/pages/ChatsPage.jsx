@@ -692,6 +692,28 @@ export default function ChatsPage() {
     if (!openedConversation) return;
     try {
       await api.put(`/connections/${openedConversation.connectionId}/block`);
+      setConversationList((prev) =>
+        prev.map((c) =>
+          c.connectionId === openedConversation.connectionId
+            ? {
+                ...c,
+                connectionStatus: "BLOCKED",
+                isBlocked: true,
+                iBlockedThem: true,
+              }
+            : c,
+        ),
+      );
+      setOpenedConversation((prev) =>
+        prev?.connectionId === openedConversation.connectionId
+          ? {
+              ...prev,
+              connectionStatus: "BLOCKED",
+              isBlocked: true,
+              iBlockedThem: true,
+            }
+          : prev,
+      );
     } catch (error) {
       showError(
         "No se pudo bloquear al usuario.",
@@ -706,6 +728,28 @@ export default function ChatsPage() {
     if (!openedConversation) return;
     try {
       await api.put(`/connections/${openedConversation.connectionId}/activate`);
+      setConversationList((prev) =>
+        prev.map((c) =>
+          c.connectionId === openedConversation.connectionId
+            ? {
+                ...c,
+                connectionStatus: "ACTIVE",
+                isBlocked: false,
+                iBlockedThem: false,
+              }
+            : c,
+        ),
+      );
+      setOpenedConversation((prev) =>
+        prev?.connectionId === openedConversation.connectionId
+          ? {
+              ...prev,
+              connectionStatus: "ACTIVE",
+              isBlocked: false,
+              iBlockedThem: false,
+            }
+          : prev,
+      );
     } catch (error) {
       showError(
         "No se pudo desbloquear al usuario.",
