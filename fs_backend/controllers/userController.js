@@ -58,8 +58,7 @@ class UserController {
 
       const token = generarToken(usuarioBuscado);
       res.cookie("access_token", token, cookieOpts);
-      const { password, ...usuarioLimpio } = usuarioBuscado.toJSON();
-
+      const { password: _, ...usuarioLimpio } = usuarioBuscado.toJSON();
       return res.status(200).json({
         ok: true,
         usuario: usuarioLimpio,
