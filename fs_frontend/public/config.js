@@ -15,5 +15,5 @@ window.__APP_CONFIG__ = {
   API_URL: "https://friendsspace-production-d852.up.railway.app/api",
 
   // URL de la API en desarrollo (descomentada solo si pruebas en local)
-  // API_URL: "http://localhost:8080/api",
+  // API_URL: "http://localhost:3000/api",
 };
