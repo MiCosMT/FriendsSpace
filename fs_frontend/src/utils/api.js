@@ -2,7 +2,7 @@ import axios from "axios";
 import useAuthStore from "../store/useAuthStore";
 
 const api = axios.create({
-  baseURL: window.__APP_CONFIG__?.API_URL,
+  baseURL: import.meta.env.API_URL || "http://localhost:3000/api",
   timeout: 30000,
   withCredentials: true,
 });
