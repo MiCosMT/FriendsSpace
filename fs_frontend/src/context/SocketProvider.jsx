@@ -21,12 +21,10 @@ export const SocketProvider = ({ children }) => {
       });
 
       newSocket.on("connect", () => {
-        console.log("🟢 Socket conectado:", newSocket.id);
         newSocket.emit("join", loggedUser.id);
       });
 
       newSocket.on("disconnect", () => {
-        console.log("🔴 Socket desconectado");
       });
 
       socketRef.current = newSocket;
