@@ -3,8 +3,8 @@ import { io } from "socket.io-client";
 import { SocketContext } from "./SocketContext";
 import useAuthStore from "../store/useAuthStore";
 
-const SOCKET_URL = window.__APP_CONFIG__?.API_URL
-  ? window.__APP_CONFIG__.API_URL.replace("/api", "")
+const SOCKET_URL = import.meta.env.API_URL
+  ? import.meta.env.API_URL.replace("/api", "")
   : "http://localhost:3000";
 
 export const SocketProvider = ({ children }) => {
