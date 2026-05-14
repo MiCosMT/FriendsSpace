@@ -27,7 +27,9 @@ const cookieOpts = {
   maxAge: 1000 * 60 * 60,
 };
 
+// Controlador encargado de la autenticación y la gestión completa de perfiles de usuario
 class UserController {
+  // Inicia sesión verificando credenciales y establece una cookie segura con el JWT
   async login(req, res) {
     try {
       const { emailOrUsername, password } = req.body;
@@ -72,6 +74,7 @@ class UserController {
     }
   }
 
+  // Registra un nuevo usuario en la base de datos tras validar su información
   async createUser(req, res) {
     try {
       const { email, name, password } = req.body;
@@ -96,6 +99,7 @@ class UserController {
     }
   }
 
+  // Crea un usuario con rol de administrador (Acción exclusiva para desarrolladores)
   async createAdmin(req, res) {
     try {
       if (req.user.role !== "DEVELOPER")
@@ -134,6 +138,7 @@ class UserController {
     }
   }
 
+  // Obtiene una lista de todos los administradores registrados en el sistema
   async getAllAdmins(req, res) {
     try {
       if (req.user.role !== "DEVELOPER" && req.user.role !== "ADMIN")
@@ -153,6 +158,7 @@ class UserController {
     }
   }
 
+  // Cierra sesión eliminando la cookie de acceso del cliente
   async logout(req, res) {
     try {
       const clearCookieOpts = {
@@ -175,6 +181,7 @@ class UserController {
     }
   }
 
+  // Verifica que el token de sesión actual siga siendo válido
   async checkAuth(req, res) {
     try {
       const usuarioActual = await userService.getUserById(req.user.id);
@@ -192,6 +199,7 @@ class UserController {
     }
   }
 
+  // Devuelve la lista global de usuarios, con opciones de filtrado por búsqueda y/o intereses
   async getAllUsers(req, res) {
     try {
       const page = parseInt(req.query.page) || 1;
@@ -208,6 +216,7 @@ class UserController {
     }
   }
 
+  // Busca los datos de un usuario exacto utilizando su correo electrónico o su nombre
   async getUserByEmailOrUsername(req, res) {
     try {
       const usuario = await userService.getUserByEmailOrUsername(
@@ -224,6 +233,7 @@ class UserController {
     }
   }
 
+  // Obtiene los detalles de un usuario a partir de su ID (ocultando el email por privacidad)
   async getUserById(req, res) {
     try {
       const usuarioBuscado = await userService.getUserById(req.params.id);
@@ -242,6 +252,7 @@ class UserController {
     }
   }
 
+  // Actualiza campos permitidos del perfil (nombre, biografía, etc.) tras verificaciones
   async updateUser(req, res) {
     try {
       if (req.user.id != req.params.id)
@@ -295,6 +306,7 @@ class UserController {
     }
   }
 
+  // Cambia la contraseña del usuario tras validar la actual y las reglas de seguridad de la nueva
   async changePassword(req, res) {
     try {
       if (req.user.id != req.params.id)
@@ -340,6 +352,7 @@ class UserController {
     }
   }
 
+  // Elimina de forma definitiva la cuenta de usuario de la plataforma
   async deleteUser(req, res) {
     try {
       if (req.user.id != req.params.id)
@@ -354,6 +367,7 @@ class UserController {
     }
   }
 
+  // Devuelve el listado de intereses asociados al perfil del usuario
   async getMyInterests(req, res) {
     try {
       const interests = await userService.getUserInterests(req.params.id);
@@ -363,6 +377,7 @@ class UserController {
     }
   }
 
+  // Agrega uno o varios intereses a la lista de intereses configurados en el perfil
   async addInterests(req, res) {
     try {
       if (req.user.id != req.params.id)
@@ -379,6 +394,7 @@ class UserController {
     }
   }
 
+  // Suspende (banea) la cuenta de un usuario para impedirle el acceso
   async banUser(req, res) {
     try {
       const { id } = req.params;
@@ -422,6 +438,7 @@ class UserController {
     }
   }
 
+  // Levanta la restricción de baneo y reactiva el acceso de un usuario
   async unbanUser(req, res) {
     try {
       const { id } = req.params;
@@ -450,6 +467,7 @@ class UserController {
     }
   }
 
+  // Elimina todas las selecciones de intereses hechas por un usuario
   async removeInterests(req, res) {
     try {
       if (req.user.id != req.params.id)
@@ -464,6 +482,7 @@ class UserController {
     }
   }
 
+  // Sube una imagen y actualiza la URL del avatar en el perfil del usuario
   async updateAvatar(req, res) {
     try {
       if (req.user.id != req.params.id)

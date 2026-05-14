@@ -1,5 +1,8 @@
 const express = require("express");
 const router = express.Router();
+
+// Definición de las rutas para solicitudes de amistad y reportes de moderación
+// Procesa las invitaciones entre usuarios, su aceptación/rechazo y la bandeja de notificaciones.
 const requestController = require("../controllers/requestController");
 const { validarToken } = require("../middlewares/validarToken");
 const { verificarRol } = require("../middlewares/verificarRol");

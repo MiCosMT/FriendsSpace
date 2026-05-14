@@ -1,3 +1,5 @@
+// Página de administración reservada para el rol DEVELOPER
+// Permite listar, buscar y crear nuevas cuentas con rol de ADMIN
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import {
   Box,

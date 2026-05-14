@@ -1,3 +1,6 @@
+// Perfil público detallado de un usuario
+// Muestra su información (bio, intereses) y gestiona la relación (enviar solicitud, bloquear, reportar, banear)
+// adaptando los botones y acciones según los roles de quien visita y el usuario visitado
 import React, { useEffect, useState, useContext, useCallback } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import PersonOffIcon from "@mui/icons-material/PersonOff";

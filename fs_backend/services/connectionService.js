@@ -3,7 +3,9 @@ const { initModels } = require("../src/models/init-models.js");
 const models = initModels(sequelize);
 const { Op, literal } = require("sequelize");
 
+// Servicio para manejar las relaciones de conexión (amistades o investigaciones) en la base de datos
 class ConnectionService {
+  // Función auxiliar para limpiar la información de un mensaje (ocultar texto y url si está borrado)
   sanitizeLastMessage(message) {
     if (!message) return message;
     const msg = message && typeof message.toJSON === "function" ? message.toJSON() : message;
@@ -13,6 +15,7 @@ class ConnectionService {
     return msg;
   }
 
+  // Obtiene todas las conexiones de un usuario con sus respectivos participantes y su último mensaje de chat
   async getAllMyConnections(userId) {
     const misConexiones = await models.user_connection.findAll({
       where: { user_id: userId },
@@ -59,6 +62,7 @@ class ConnectionService {
     });
   }
 
+  // Obtiene la información básica de una conexión a partir de su ID
   async getConnectionById(connectionId) {
     return await models.connection.findOne({
       where: { id: connectionId },
@@ -71,6 +75,7 @@ class ConnectionService {
     });
   }
 
+  // Recupera la lista de usuarios (con sus roles) que forman parte de una conexión concreta
   async getConnectionUsers(connectionId) {
     const userConns = await models.user_connection.findAll({
       where: { connection_id: connectionId },
@@ -79,6 +84,7 @@ class ConnectionService {
     return userConns.map((uc) => ({ id: uc.user_id, role: uc.user?.role }));
   }
 
+  // Cambia el estado de una conexión a "FINISHED" (Finalizada/Cerrada)
   async finishConnection(id) {
     return await models.connection.update(
       { status: "FINISHED" },
@@ -86,6 +92,7 @@ class ConnectionService {
     );
   }
 
+  // Marca una conexión como "BLOCKED" e indica qué usuario ha ejercido el bloqueo
   async blockConnection(connectionId, userId) {
     const transaction = await sequelize.transaction();
     try {
@@ -107,6 +114,7 @@ class ConnectionService {
       throw error;
     }
   }
+  // Reactiva una conexión pasándola a estado "ACTIVE" y borrando el rastro de bloqueos
   async activateConnection(connectionId) {
     const transaction = await sequelize.transaction();
     try {
@@ -126,6 +134,7 @@ class ConnectionService {
     }
   }
 
+  // Busca si existe una conexión activa o bloqueada en común entre dos perfiles de usuario
   async findActiveConnection(myId, profileId) {
     const misConexiones = await models.user_connection.findAll({
       where: { user_id: myId },
@@ -161,6 +170,7 @@ class ConnectionService {
     });
   }
 
+  // Verifica mediante consulta si un determinado usuario forma parte de una conexión
   async userBelongsToConnection(userId, connectionId) {
     const uc = await models.user_connection.findOne({
       where: { user_id: userId, connection_id: connectionId },
@@ -168,6 +178,7 @@ class ConnectionService {
     return !!uc;
   }
 
+  // Obtiene el ID del otro participante de una conexión (útil en chats uno a uno)
   async getOtherUserInConnection(connectionId, myUserId) {
     const uc = await models.user_connection.findOne({
       where: {

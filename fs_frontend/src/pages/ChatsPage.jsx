@@ -1,3 +1,6 @@
+// Página central de mensajería privada en tiempo real y moderación de reportes
+// Integra WebSockets (socket.io) para recibir y enviar mensajes, actualizar estados de lectura, 
+// compartir multimedia (audio, imagen, video) y gestionar bloqueos de usuarios.
 import React, {
   useState,
   useEffect,

@@ -1,7 +1,9 @@
 const connectionService = require("../services/connectionService");
 const logger = require("../utils/logger");
 const messageService = require("../services/messageService");
+// Controlador responsable de gestionar las conexiones (amistades y chats) entre los usuarios de la plataforma
 class ConnectionController {
+  // Obtiene el listado completo de todas las conexiones activas pertenecientes al usuario autenticado
   async getAllMyConnections(req, res) {
     try {
       const datos = await connectionService.getAllMyConnections(req.user.id);
@@ -12,6 +14,7 @@ class ConnectionController {
     }
   }
 
+  // Activa o desbloquea una conexión específica, notificando a los usuarios implicados a través de WebSockets
   async activateConnection(req, res) {
     try {
       const userId = req.user.id;
@@ -51,6 +54,7 @@ class ConnectionController {
     }
   }
 
+  // Finaliza de forma definitiva una conexión entre usuarios, marcando los mensajes como leídos y notificando el cierre
   async finishConnection(req, res) {
     try {
       const userId = req.user.id;
@@ -108,6 +112,7 @@ class ConnectionController {
     }
   }
 
+  // Bloquea una conexión para impedir la interacción, emitiendo también un evento en tiempo real para actualizar las interfaces
   async blockConnection(req, res) {
     try {
       const userId = req.user.id;
@@ -150,6 +155,7 @@ class ConnectionController {
     }
   }
 
+  // Comprueba si ya existe una relación de amistad activa o bloqueada entre el usuario actual y otro perfil concreto
   async checkFriendship(req, res) {
     try {
       const myId = req.user.id;

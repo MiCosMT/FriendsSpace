@@ -1,3 +1,5 @@
+// Muro principal para descubrir usuarios y posibles amistades
+// Incluye búsqueda por nombre, filtro dinámico de intereses y carga progresiva de perfiles (infinite scroll)
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import {
   Box,

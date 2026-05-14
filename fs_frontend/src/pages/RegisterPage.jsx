@@ -1,3 +1,5 @@
+// Página de registro de nuevas cuentas
+// Pide correo, usuario y contraseña con validaciones, creando el perfil inicial en la plataforma
 import React, { useState } from "react";
 import { Box, IconButton, InputAdornment, TextField, Typography } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";

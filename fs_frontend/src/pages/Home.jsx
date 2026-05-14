@@ -1,3 +1,5 @@
+// Página de inicio o Landing Page (pública)
+// Presenta la propuesta de valor de Friends Space y da acceso rápido al registro o inicio de sesión
 import React from "react";
 import {
   Box,

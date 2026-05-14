@@ -1,3 +1,7 @@
+// Barra de navegación secundaria utilizada en algunas vistas
+// Facilita la navegación rápida o muestra el logo de la aplicación
+// Barra de navegación secundaria utilizada en algunas vistas (como edición de perfil de primer ingreso)
+// Facilita la navegación rápida y muestra el logo y nombre de la aplicación
 import React, { useEffect, useState } from "react";
 import { AppBar, Toolbar, Typography, Button, Avatar } from "@mui/material";
 import { Link } from "react-router-dom";

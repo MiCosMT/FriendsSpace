@@ -1,3 +1,4 @@
+// Hook y diccionario que provee los colores y configuraciones visuales según el tema activo
 import themeAppStore from "../store/appThemeStore";
 
 const themes = {

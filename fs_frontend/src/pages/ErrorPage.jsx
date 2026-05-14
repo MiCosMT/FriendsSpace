@@ -1,3 +1,5 @@
+// Página de error genérica para atrapar rutas no encontradas (404) u otros errores de navegación
+// Muestra un diseño amigable y permite regresar a la página de inicio
 import React from "react";
 import { useNavigate, useRouteError } from "react-router-dom";
 import { Box, Typography, Button } from "@mui/material";

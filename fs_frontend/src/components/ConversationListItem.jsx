@@ -1,3 +1,5 @@
+// Representa un ítem en la lista lateral de conversaciones activas
+// Muestra el avatar del amigo, último mensaje, fecha y conteo de mensajes no leídos
 import React from "react";
 import { Box, Avatar, Typography } from "@mui/material";
 import BlockIcon from "@mui/icons-material/Block";

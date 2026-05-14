@@ -1,3 +1,4 @@
+// Proveedor que gestiona el ciclo de vida de la conexión en tiempo real (Socket.io) según si el usuario está logueado
 import React, { useEffect, useRef } from "react";
 import { io } from "socket.io-client";
 import { SocketContext } from "./SocketContext";

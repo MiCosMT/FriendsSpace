@@ -1,3 +1,7 @@
+// Formulario incrustado en una tarjeta para crear un nuevo anuncio
+// Permite ingresar texto, seleccionar intereses y enviar la publicación al muro
+// Formulario incrustado en un modal/tarjeta para crear o editar un anuncio
+// Permite ingresar título, cuerpo, seleccionar intereses y publicar o guardar los cambios
 import * as React from "react";
 import { useState, useEffect } from "react";
 import {

@@ -1,3 +1,4 @@
+// Hook que redirige automáticamente al usuario a su perfil si es la primera vez que inicia sesión
 import { useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import useAuthStore from "../store/useAuthStore";

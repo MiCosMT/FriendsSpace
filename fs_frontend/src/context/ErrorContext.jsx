@@ -1,3 +1,4 @@
+// Contexto para gestionar y mostrar de forma centralizada mensajes de error en la interfaz
 import React, { createContext, useContext, useState, useCallback } from "react";
 
 const ErrorContext = createContext(null);

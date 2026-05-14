@@ -1,3 +1,4 @@
+// Middleware para interceptar las peticiones y verificar la validez del token JWT del usuario
 const jwt = require("jsonwebtoken");
 const { SECRET_JWT_KEY } = require("../config/config");
 const logger = require("../utils/logger");

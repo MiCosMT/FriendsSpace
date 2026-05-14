@@ -1,3 +1,5 @@
+// Botón o interruptor para alternar entre los distintos temas visuales de la aplicación
+// Accede al estado global de temas (Zustand) para cambiar colores, fondos y tipografías dinámicamente
 import React from "react";
 import { IconButton, Box, Tooltip } from "@mui/material";
 import NightlightIcon from '@mui/icons-material/Nightlight';

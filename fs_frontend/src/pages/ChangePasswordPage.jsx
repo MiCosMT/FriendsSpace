@@ -1,3 +1,5 @@
+// Página dedicada exclusivamente al cambio de contraseña del usuario activo
+// Tras cambiarla con éxito, cierra las sesiones y redirige al inicio de sesión
 import React, { useState } from "react";
 import { Box, Typography, TextField, Button, CircularProgress, IconButton, InputAdornment } from "@mui/material";
 import { Visibility, VisibilityOff, Lock as LockIcon, CheckCircle as CheckCircleIcon } from "@mui/icons-material";

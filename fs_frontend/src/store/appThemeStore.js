@@ -1,3 +1,4 @@
+// Tienda (Store) global de Zustand para persistir en localStorage si el usuario prefiere tema 'dark' o 'default'
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 

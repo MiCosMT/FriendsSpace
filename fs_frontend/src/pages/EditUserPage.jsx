@@ -1,3 +1,5 @@
+// Página con el formulario principal de edición de perfil (avatar, biografía, nombre, intereses)
+// Se reutiliza como pantalla de 'Onboarding' cuando el usuario inicia sesión por primera vez
 import React, { useEffect, useRef, useState } from "react";
 import {
   Autocomplete,

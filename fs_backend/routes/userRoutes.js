@@ -1,5 +1,8 @@
 const express = require("express");
 const router = express.Router();
+
+// Definición de las rutas principales para la gestión de usuarios
+// Incluye autenticación (login/logout), registro, manipulación de perfiles y roles.
 const userController = require("../controllers/userController");
 const { validarToken } = require("../middlewares/validarToken");
 const { uploadAvatar } = require("../config/cloudinary");

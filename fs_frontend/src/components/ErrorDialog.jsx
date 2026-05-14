@@ -1,3 +1,5 @@
+// Diálogo (Modal) global para mostrar errores críticos o importantes de forma visual
+// Se utiliza en conjunto con ErrorContext
 import React from "react";
 import {
   Dialog, DialogTitle, DialogContent, DialogContentText,

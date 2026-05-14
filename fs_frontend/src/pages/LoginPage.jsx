@@ -1,3 +1,5 @@
+// Página de inicio de sesión
+// Valida credenciales, guarda la sesión global y redirige al usuario a su cuenta o al asistente de primer ingreso
 import React, { useRef, useState } from "react";
 import {
   Box,

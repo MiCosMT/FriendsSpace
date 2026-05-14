@@ -1,3 +1,4 @@
+// Componente raíz de React que define las rutas principales y envuelve la aplicación con los contextos globales (Tema, Auth, Sockets, Errores)
 import React from "react";
 import { createBrowserRouter } from "react-router";
 import Home from "./pages/Home";

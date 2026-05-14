@@ -1,5 +1,8 @@
 const express = require("express");
 const router = express.Router();
+
+// Definición de las rutas para el sistema de mensajería (Chat)
+// Maneja el historial de mensajes, envíos de texto/multimedia y recuento de leídos.
 const messageController = require("../controllers/messageController");
 const { validarToken } = require("../middlewares/validarToken");
 const { uploadChat } = require("../config/cloudinary");

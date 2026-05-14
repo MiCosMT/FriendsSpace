@@ -2,7 +2,9 @@ const requestService = require("../services/requestService");
 const logger = require("../utils/logger");
 const userService = require("../services/userService");
 
+// Controlador que maneja las solicitudes de conexión (amistad) y los reportes de moderación
 class RequestController {
+  // Crea una nueva solicitud de conexión o petición hacia otro usuario
   async createRequest(req, res) {
     try {
       const { receiver_id, body, is_report, info_report } = req.body;
@@ -65,6 +67,7 @@ class RequestController {
     }
   }
 
+  // Crea un reporte formal para avisar a los admins de comportamientos inadecuados
   async createReport(req, res) {
     try {
       const sender_id = req.user.id;
@@ -127,6 +130,7 @@ class RequestController {
     }
   }
 
+  // Acepta una solicitud pendiente y crea la conexión/chat correspondiente
   async accept(req, res) {
     try {
       const { id } = req.params;
@@ -182,6 +186,7 @@ class RequestController {
     }
   }
 
+  // Rechaza una solicitud de amistad, marcándola como desestimada sin crear conexión
   async reject(req, res) {
     try {
       const { id } = req.params;
@@ -219,6 +224,7 @@ class RequestController {
     }
   }
 
+  // Oculta una notificación/solicitud para que ya no aparezca visualmente en la bandeja del usuario
   async invisible(req, res) {
     try {
       const { id } = req.params;
@@ -250,6 +256,7 @@ class RequestController {
     }
   }
 
+  // Devuelve la cantidad de notificaciones/solicitudes no leídas por el usuario
   async getUnreadCount(req, res) {
     try {
       const count = await requestService.getUnreadCount(req.user.id);
@@ -262,6 +269,7 @@ class RequestController {
     }
   }
 
+  // Marca todas las notificaciones de la bandeja como leídas
   async markAsRead(req, res) {
     try {
       await requestService.markAllAsRead(req.user.id);
@@ -272,6 +280,7 @@ class RequestController {
     }
   }
 
+  // Obtiene el listado completo de solicitudes y notificaciones visibles para el usuario
   async getMyNotifications(req, res) {
     try {
       const notifications = await requestService.getAllVisibleRequests(
@@ -284,6 +293,7 @@ class RequestController {
     }
   }
 
+  // Verifica si existe alguna solicitud pendiente (enviada o recibida) con otro usuario
   async checkPendingRequest(req, res) {
     try {
       const myId = req.user.id;
@@ -307,6 +317,7 @@ class RequestController {
     }
   }
 
+  // Devuelve únicamente las solicitudes de la bandeja que no han sido leídas
   async getRequestsWithoutRead(req, res) {
     try {
       const myId = req.user.id;

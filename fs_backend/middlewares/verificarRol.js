@@ -1,3 +1,4 @@
+// Middleware para proteger rutas comprobando si el rol del usuario está dentro de los roles permitidos
 const verificarRol = (...rolesPermitidos) => {
   return (req, res, next) => {
     const rolUsuario = req.user?.role;

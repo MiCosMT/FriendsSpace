@@ -1,3 +1,5 @@
+// Página principal del muro de anuncios
+// Permite a los usuarios ver, buscar, filtrar por intereses, crear y eliminar anuncios
 import React, { useEffect, useState, useRef, useCallback } from "react";
 import { Box, Typography, CircularProgress, Container } from "@mui/material";
 import { useAppTheme } from "../hooks/useAppTheme";

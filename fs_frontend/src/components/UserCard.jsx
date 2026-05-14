@@ -1,3 +1,5 @@
+// Tarjeta de presentación de un usuario, mostrada en resultados de búsqueda o en el listado de amigos
+// Renderiza de forma distinta según si se muestra como tarjeta individual (Grid), fila (Lista) o admin
 import React, { useRef } from "react";
 import { Box, Typography, Avatar, IconButton } from "@mui/material";
 import PeopleIcon from "@mui/icons-material/People";

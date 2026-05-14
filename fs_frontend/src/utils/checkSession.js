@@ -1,3 +1,4 @@
+// Función de utilidad para verificar silenciosamente con el backend si la sesión del usuario sigue siendo válida
 import api from "./api";
 
 export const checkSession = async () => {

@@ -5,12 +5,14 @@ const { Op } = require("sequelize");
 
 const LIMIT = 20;
 
+// Servicio encargado de interactuar con la base de datos para todas las operaciones de anuncios
 class AdService {
   static includeData = [
     { model: models.user, as: "user", attributes: ["name", "url_image", "role"] },
     { model: models.interest, as: "interests", attributes: ["id", "name"], through: { attributes: [] } },
   ];
 
+  // Recupera anuncios paginados y opcionalmente filtrados por texto (en título o cuerpo)
   async getAllAds({ page = 1, search = "" } = {}) {
     const offset = (page - 1) * LIMIT;
 
@@ -38,10 +40,12 @@ class AdService {
     };
   }
 
+  // Obtiene un anuncio individual junto a los datos de su creador y sus intereses asociados
   async getAdById(id) {
     return await models.ad.findByPk(id, { include: AdService.includeData });
   }
 
+  // Crea un nuevo anuncio en la BD y lo enlaza con los intereses mediante una transacción segura
   async createAd(data, interests) {
     const transaction = await sequelize.transaction();
     try {
@@ -60,6 +64,7 @@ class AdService {
     }
   }
 
+  // Actualiza los datos de un anuncio y reescribe sus relaciones de intereses usando una transacción
   async updateAd(id, data, interestIds) {
     const transaction = await sequelize.transaction();
     try {
@@ -81,10 +86,12 @@ class AdService {
     }
   }
 
+  // Borra un anuncio de la base de datos de manera permanente
   async deleteAd(id) {
     return await models.ad.destroy({ where: { id } });
   }
 
+  // Retorna todos los anuncios que contienen una palabra clave dada (sin aplicar paginación)
   async getAdsByWord(word) {
     return await models.ad.findAll({
       where: { [Op.or]: [{ title: { [Op.substring]: word } }, { body: { [Op.substring]: word } }] },

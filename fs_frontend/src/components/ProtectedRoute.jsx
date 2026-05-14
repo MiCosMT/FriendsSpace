@@ -1,3 +1,5 @@
+// Componente enrutador que protege las rutas privadas
+// Verifica si existe un usuario logueado en el estado global, redirigiendo al login si no es así
 import React from "react";
 import { Navigate } from "react-router-dom";
 import { CircularProgress, Box } from "@mui/material";

@@ -1,3 +1,4 @@
+// Configuración e inicialización de la conexión con la base de datos MySQL usando Sequelize
 const { Sequelize } = require('sequelize');
 
 const sequelize = new Sequelize(

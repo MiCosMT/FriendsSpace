@@ -1,3 +1,5 @@
+// Representa una burbuja de mensaje individual dentro de una conversación
+// Soporta la visualización de texto, así como previsualización de imágenes, audio y videos
 import React from "react";
 import { Box, Avatar, Typography } from "@mui/material";
 import InsertDriveFileIcon from "@mui/icons-material/InsertDriveFile";

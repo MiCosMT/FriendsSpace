@@ -1,5 +1,8 @@
 const express = require('express');
 const router = express.Router();
+
+// Definición de las rutas para la gestión de conexiones y amistades
+// Expone endpoints para listar conexiones, activarlas, finalizarlas, y verificar su estado.
 const connectionController = require('../controllers/connectionController');
 const { validarToken } = require('../middlewares/validarToken');
 

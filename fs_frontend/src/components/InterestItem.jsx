@@ -1,3 +1,5 @@
+// Pequeña etiqueta (Chip) visual que representa un interés o categoría
+// Utilizada en perfiles, anuncios y barras de búsqueda para identificar temáticas
 import React, { useState } from "react";
 import { Grid, Typography } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";

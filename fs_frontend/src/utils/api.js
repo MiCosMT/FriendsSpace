@@ -1,3 +1,5 @@
+// Configuración base de Axios para realizar peticiones a la API del backend
+// Incluye un interceptor que maneja automáticamente los errores 401 (No autorizado) y redirige a login o banned
 import axios from "axios";
 import useAuthStore from "../store/useAuthStore";
 

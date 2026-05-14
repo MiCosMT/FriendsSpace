@@ -1,3 +1,5 @@
+// Modal de confirmación genérico y reutilizable
+// Pide al usuario confirmar acciones importantes o destructivas (eliminar, bloquear, reportar, etc.)
 import React from "react";
 import {
   Dialog,

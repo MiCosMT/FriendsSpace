@@ -1,3 +1,5 @@
+// Archivo de entrada principal (Entry point) del servidor backend
+// Inicializa Express, la configuración de CORS, la conexión con WebSockets (Socket.io) y enruta todos los endpoints
 if (process.env.NODE_ENV !== "production") {
   require("dotenv").config();
 }

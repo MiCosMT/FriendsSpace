@@ -1,3 +1,4 @@
+// Archivo que centraliza e inicializa todos los modelos de la base de datos y define sus relaciones (asociaciones)
 var DataTypes = require("sequelize").DataTypes;
 var _ad = require("./ad");
 var _ad_interest = require("./ad_interest");

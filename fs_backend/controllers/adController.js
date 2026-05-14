@@ -1,6 +1,8 @@
 const adService = require("../services/adService");
 
+// Controlador encargado de gestionar todas las operaciones relacionadas con los anuncios (Ads)
 class AdController {
+  // Obtiene una lista paginada de todos los anuncios, con opción de filtrado por término de búsqueda
   async getAllAds(req, res) {
     try {
       const page = parseInt(req.query.page) || 1;
@@ -13,6 +15,7 @@ class AdController {
     }
   }
 
+  // Crea un nuevo anuncio asignado al usuario autenticado e incluye sus intereses asociados
   async createAd(req, res) {
     try {
       const { title, body, interests } = req.body;
@@ -26,6 +29,7 @@ class AdController {
     }
   }
 
+  // Actualiza los datos de un anuncio existente, verificando primero que el usuario tenga permisos (dueño, ADMIN o DEVELOPER)
   async updateAd(req, res) {
     try {
       const { id } = req.params;
@@ -54,6 +58,7 @@ class AdController {
     }
   }
 
+  // Elimina un anuncio por su ID, siempre y cuando el usuario sea el creador o tenga permisos superiores
   async deleteAd(req, res) {
     try {
       const { id } = req.params;
@@ -81,6 +86,7 @@ class AdController {
     }
   }
 
+  // Realiza una búsqueda de anuncios cuya información contenga una palabra clave específica
   async getAdsByWord(req, res) {
     try {
       const { word } = req.params;
@@ -91,6 +97,7 @@ class AdController {
     }
   }
 
+  // Obtiene toda la información detallada de un anuncio específico mediante su ID
   async getAdById(req, res) {
     try {
       const { id } = req.params;

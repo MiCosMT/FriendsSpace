@@ -1,3 +1,4 @@
+// Punto de entrada principal de React en el navegador que inicializa y monta la aplicación en el DOM
 import React from 'react';
 import { createRoot } from 'react-dom/client'
 import App from './App.jsx'

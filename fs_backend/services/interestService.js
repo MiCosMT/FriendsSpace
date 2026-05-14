@@ -4,6 +4,7 @@ const { initModels } = require("../src/models/init-models");
 const models = initModels(sequelize);
 const { interest } = models;
 
+// Servicio para acceder y modificar el catálogo global de intereses y etiquetas en la base de datos
 class InterestService {
   // Obtiene todos los intereses disponibles en la base de datos
   async getAllInterests() {

@@ -1,3 +1,4 @@
+// Tienda (Store) global de Zustand para guardar de forma persistente los datos del usuario logueado y conteos de notificaciones
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 

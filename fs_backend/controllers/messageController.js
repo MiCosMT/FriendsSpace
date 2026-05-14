@@ -5,7 +5,9 @@ const sequelize = require("../config/sequelize");
 const { initModels } = require("../src/models/init-models");
 const models = initModels(sequelize);
 
+// Controlador encargado de la mensajería, lectura de mensajes y envíos de archivos multimedia
 class MessageController {
+  // Obtiene el historial de mensajes de una conversación, con opciones de paginación
   async getMessages(req, res) {
     try {
       const { connectionId } = req.params;
@@ -21,6 +23,7 @@ class MessageController {
     }
   }
 
+  // Envía un mensaje de texto normal dentro de una conexión, notificando por socket a los participantes
   async sendTextMessage(req, res) {
     try {
       const { connectionId } = req.params;
@@ -47,6 +50,7 @@ class MessageController {
     }
   }
 
+  // Procesa y envía un mensaje que contiene un archivo multimedia (imagen, video o audio)
   async sendMediaMessage(req, res) {
     try {
       const { connectionId } = req.params;
@@ -78,6 +82,7 @@ class MessageController {
     }
   }
 
+  // Marca todos los mensajes de una conexión como leídos por el usuario actual
   async markAsRead(req, res) {
     try {
       const { connectionId } = req.params;
@@ -94,6 +99,7 @@ class MessageController {
     }
   }
 
+  // Cuenta cuántos mensajes sin leer tiene el usuario en una conexión específica
   async getUnreadCount(req, res) {
     try {
       const { connectionId } = req.params;
@@ -108,6 +114,7 @@ class MessageController {
     }
   }
 
+  // Cuenta el total de mensajes no leídos del usuario en todas sus conexiones activas
   async getUnreadTotal(req, res) {
     try {
       const userId = req.user.id;
@@ -119,6 +126,7 @@ class MessageController {
     }
   }
 
+  // Elimina un mensaje por su ID, notificando el borrado por socket
   async deleteMessage(req, res) {
     try {
       const { messageId } = req.params;
@@ -136,6 +144,7 @@ class MessageController {
     }
   }
 
+  // Edita el contenido de texto de un mensaje existente
   async editMessage(req, res) {
     try {
       const { messageId } = req.params;
@@ -153,6 +162,7 @@ class MessageController {
     }
   }
 
+  // Permite descargar el archivo adjunto de un mensaje multimedia
   async downloadFile(req, res) {
     try {
       const { messageId } = req.params;

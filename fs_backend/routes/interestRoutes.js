@@ -1,5 +1,8 @@
 const express = require("express");
 const router = express.Router();
+
+// Definición de las rutas para gestionar el catálogo global de intereses y etiquetas
+// Protege la creación y borrado únicamente para administradores y desarrolladores.
 const interestController = require("../controllers/interestController");
 const { validarToken } = require("../middlewares/validarToken");
 const { verificarRol } = require("../middlewares/verificarRol");

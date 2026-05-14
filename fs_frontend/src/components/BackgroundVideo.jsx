@@ -1,3 +1,5 @@
+// Componente que renderiza un video de fondo de pantalla sin controles y en bucle
+// Se utiliza en inicio y pantallas de login/registro para un efecto visual dinámico
 import React, { useState, useEffect } from "react";
 import { Box } from "@mui/material";
 

@@ -1,3 +1,5 @@
+// Componente de alerta simple para notificaciones
+// Utilizado comúnmente en formularios (login/registro) para mostrar mensajes de error breves
 import React from 'react';
 import { Alert, Collapse, Box } from '@mui/material';
 

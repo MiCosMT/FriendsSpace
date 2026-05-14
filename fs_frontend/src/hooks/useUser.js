@@ -1,3 +1,4 @@
+// Hook de conveniencia para acceder rápidamente al usuario logueado desde la store
 import api from "../utils/api";
 import useAuthStore from "../store/useAuthStore";
 

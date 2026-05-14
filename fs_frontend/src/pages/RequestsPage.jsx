@@ -1,3 +1,5 @@
+// Página de bandeja de notificaciones y solicitudes de conexión
+// Permite aceptar/rechazar solicitudes pendientes y, en el caso de administradores, gestionar reportes activos
 import React, { useState, useEffect, useContext, useCallback } from "react";
 import { Box, Typography, Button, ButtonGroup, Chip } from "@mui/material";
 import { useNavigate } from "react-router-dom";

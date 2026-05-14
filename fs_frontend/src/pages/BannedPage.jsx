@@ -1,3 +1,5 @@
+// Página estática de información de cuenta suspendida
+// Se muestra obligatoriamente a los usuarios que han sido baneados por moderación
 import React from "react";
 import { Box, Typography, Button } from "@mui/material";
 import BlockIcon from "@mui/icons-material/Block";

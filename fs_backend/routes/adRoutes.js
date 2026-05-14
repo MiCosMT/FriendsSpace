@@ -1,5 +1,8 @@
 const express = require("express");
 const router = express.Router();
+
+// Definición de las rutas relacionadas con los anuncios (Ads) de la plataforma
+// Gestiona el enrutamiento para listar, crear, modificar y eliminar anuncios.
 const adController = require("../controllers/adController");
 const { validarToken } = require("../middlewares/validarToken");
 

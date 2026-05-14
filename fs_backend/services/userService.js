@@ -9,7 +9,9 @@ const bcrypt = require("bcrypt");
 
 const LIMIT = 20;
 
+// Servicio para manejar toda la lógica y consultas de la base de datos referentes a los usuarios
 class UserService {
+  // Devuelve una lista de usuarios normales paginada y filtrable, incluyendo la cuenta de sus amigos
   async getAllUsers({ page = 1, search = "", interests = [] } = {}) {
     const offset = (page - 1) * LIMIT;
     const whereClause = { role: "USER" };
@@ -44,6 +46,7 @@ class UserService {
     return { datos, total: count, hasMore: offset + rows.length < count };
   }
 
+  // Devuelve una lista de los administradores y desarrolladores registrados, excluyendo al propio usuario actual
   async getAllAdmins({ myUserId, page = 1, search = "" } = {}) {
     const offset = (page - 1) * LIMIT;
     const whereClause = { role: { [Op.in]: ["ADMIN", "DEVELOPER"] }, id: { [Op.ne]: myUserId } };
@@ -67,11 +70,13 @@ class UserService {
     return { datos, total: count, hasMore: offset + rows.length < count };
   }
 
+  // Identifica los roles equivalentes o de igual jerarquía a buscar en la lista de amigos según el rol del usuario
   _getPeerRoles(role) {
     if (role === "USER") return ["USER"];
     return ["ADMIN", "DEVELOPER"];
   }
 
+  // Método interno que cuenta de forma eficiente el número de amigos de igual jerarquía de un usuario
   async _countConnections(userId, userRole) {
     const peerRoles = this._getPeerRoles(userRole);
     return await user_connection.count({
@@ -103,6 +108,7 @@ class UserService {
     });
   }
 
+  // Busca un usuario por su ID, incluyendo sus intereses y la cantidad de conexiones activas
   async getUserById(id) {
     const foundUser = await user.findByPk(id, {
       include: [{ model: interest, as: "interests", through: { attributes: [] } }],
@@ -115,18 +121,21 @@ class UserService {
     return result;
   }
 
+  // Permite localizar la cuenta de un usuario proporcionando su email o su nombre de usuario
   async getUserByEmailOrUsername(emailOrUsername) {
     return await user.findOne({
       where: { [Op.or]: [{ name: emailOrUsername }, { email: emailOrUsername }] },
     });
   }
 
+  // Almacena a un nuevo usuario en la BD encriptando su contraseña con bcrypt
   async createUser(userData) {
     const hash = await bcrypt.hash(userData.password, 10);
     userData.password = hash;
     return await user.create(userData);
   }
 
+  // Comprueba la antigua clave y si es correcta, actualiza por la nueva e invalida tokens viejos (token_version)
   async changePassword(userId, currentPassword, newPassword) {
     const foundUser = await user.findByPk(userId);
     if (!foundUser) throw new Error("Usuario no encontrado");
@@ -144,6 +153,7 @@ class UserService {
     return foundUser.token_version + 1;
   }
 
+  // Crea una conexión predeterminada (activa) entre un DEVELOPER y un ADMIN recién creado mediante transacción
   async createDevAdminConnection(devId, adminId) {
     const t = await sequelize.transaction();
     try {
@@ -158,15 +168,18 @@ class UserService {
     }
   }
 
+  // Actualiza campos varios del perfil del usuario (nombre, biografía, foto, etc.)
   async updateUser(id, userData) {
     const [updated] = await user.update(userData, { where: { id } });
     return updated;
   }
 
+  // Elimina a un usuario completamente de la base de datos
   async deleteUser(id) {
     return await user.destroy({ where: { id } });
   }
 
+  // Devuelve únicamente el array de intereses que ha seleccionado un usuario específico
   async getUserInterests(userId) {
     const foundUser = await user.findByPk(userId, {
       include: [{ model: interest, as: "interests", through: { attributes: [] } }],
@@ -174,6 +187,7 @@ class UserService {
     return foundUser ? foundUser.interests : [];
   }
 
+  // Asocia uno o varios intereses a la cuenta del usuario sin eliminar los existentes
   async addInterestsToUser(userId, interestIds) {
     const ids = Array.isArray(interestIds) ? interestIds : [interestIds];
     const userInstance = await user.findByPk(userId);
@@ -181,6 +195,7 @@ class UserService {
     return await userInstance.addInterests(ids);
   }
 
+  // Elimina la totalidad de los intereses asociados al perfil del usuario
   async removeInterestsFromUser(userId) {
     const userInstance = await user.findByPk(userId);
     if (!userInstance) throw new Error("Usuario no encontrado");

@@ -1,5 +1,6 @@
 const interestService = require("../services/interestService");
 
+// Controlador para administrar el catálogo global de intereses y etiquetas de la plataforma
 class InterestController {
   // Devuelve todos los intereses al cliente
   async getAllInterests(req, res) {

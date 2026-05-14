@@ -1,3 +1,5 @@
+// Menú contextual flotante para los mensajes del chat
+// Se abre al hacer clic derecho (o toque prolongado) y permite opciones como 'Eliminar mensaje'
 import React from "react";
 import { Box } from "@mui/material";
 import ReplyIcon from "@mui/icons-material/Reply";

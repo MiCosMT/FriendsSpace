@@ -16,7 +16,9 @@ const replyInclude = {
   include: [{ model: models.user, as: "author", attributes: ["id", "name"] }],
 };
 
+// Servicio responsable de la persistencia de mensajes y operaciones afines en la base de datos
 class MessageService {
+  // Función auxiliar para "sanitizar" o limpiar mensajes borrados y evitar enviar su texto o URL original
   sanitizeMessage(message) {
     const msg = message && typeof message.toJSON === "function" ? message.toJSON() : message;
     if (!msg) return msg;
@@ -34,6 +36,7 @@ class MessageService {
     return msg;
   }
 
+  // Obtiene los mensajes paginados de una conexión específica, ordenados del más reciente al más antiguo
   async getMessages(connectionId, limit = 30, beforeId = null) {
     const where = { connection_id: connectionId };
     if (beforeId) where.id = { [Op.lt]: beforeId };
@@ -46,6 +49,7 @@ class MessageService {
     return messages.map((message) => this.sanitizeMessage(message));
   }
 
+  // Guarda un nuevo mensaje en la base de datos y recupera sus datos extendidos (autor y mensaje respondido)
   async createMessage(data) {
     const newMessage = await models.message.create(data);
     return await models.message.findByPk(newMessage.id, {
@@ -53,6 +57,7 @@ class MessageService {
     });
   }
 
+  // "Borra" un mensaje lógicamente marcando 'deleted = true', en lugar de eliminar el registro completo
   async deleteMessage(messageId, userId) {
     const msg = await models.message.findByPk(messageId);
     if (!msg) throw new Error("Mensaje no encontrado");
@@ -63,6 +68,7 @@ class MessageService {
     );
   }
 
+  // Permite la edición del texto de un mensaje siempre que cumpla ciertos criterios (no borrado, tipo texto, mismo autor)
   async editMessage(messageId, userId, newBody) {
     const msg = await models.message.findByPk(messageId);
     if (!msg) throw new Error("Mensaje no encontrado");
@@ -73,16 +79,19 @@ class MessageService {
     return await models.message.findByPk(messageId, { include: [authorInclude, replyInclude] });
   }
 
+  // Obtiene un único mensaje por su ID, aplicando las reglas de sanitización
   async getMessageById(messageId) {
     const message = await models.message.findByPk(messageId, { include: [authorInclude, replyInclude] });
     return this.sanitizeMessage(message);
   }
 
+  // Valida si un usuario pertenece a una conexión específica
   async userBelongsToConnection(userId, connectionId) {
     const uc = await models.user_connection.findOne({ where: { user_id: userId, connection_id: connectionId } });
     return !!uc;
   }
 
+  // Marca todos los mensajes ajenos de un chat específico como leídos
   async markAsRead(connectionId, userId) {
     await models.message.update(
       { is_read: true },
@@ -90,12 +99,14 @@ class MessageService {
     );
   }
 
+  // Retorna el total de mensajes no leídos por el usuario dentro de una conversación
   async getUnreadCountByConnection(connectionId, userId) {
     return await models.message.count({
       where: { connection_id: connectionId, user_id: { [Op.ne]: userId }, is_read: false },
     });
   }
 
+  // Retorna el conteo global de mensajes sin leer que tiene el usuario en todos sus chats
   async getUnreadCountTotal(userId) {
     const connections = await models.user_connection.findAll({
       where: { user_id: userId },

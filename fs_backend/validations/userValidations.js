@@ -1,5 +1,6 @@
 const userService = require("../services/userService");
 
+// Clase que provee métodos para validar y sanear los datos de entrada relacionados con los usuarios (email, username, password)
 class UserValidations {
   // Validacion de email
   async emailValidation(email) {

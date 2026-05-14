@@ -2,6 +2,8 @@ import {
   Avatar, Box, Typography, Button, TextField, 
   Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions,
 } from "@mui/material";
+// Componente reutilizable para renderizar un anuncio (Ad)
+// Muestra la información del creador, contenido, intereses y permite interactuar (ej. eliminar)
 import React, { useState } from "react";
 import { useAppTheme } from "../hooks/useAppTheme";
 import InterestItem from "../components/InterestItem";

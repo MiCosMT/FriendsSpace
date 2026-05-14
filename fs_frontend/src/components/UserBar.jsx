@@ -1,3 +1,5 @@
+// Barra lateral o superior de navegación principal para el usuario autenticado
+// Contiene accesos a inicio, muro de anuncios, chats, notificaciones, perfil y botón para cerrar sesión
 import React, { useEffect, useState, useContext } from "react";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import {
