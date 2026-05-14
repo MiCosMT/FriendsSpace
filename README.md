@@ -30,12 +30,13 @@ FriendsSpace/
 ├── fs_backend/              # Backend Node.js + Express
 │   ├── config/              # Configuraciones (DB, Cloudinary, etc.)
 │   ├── controllers/         # Lógica de negocio
-│   ├── models/              # Modelos Sequelize
 │   ├── routes/              # Rutas API REST
 │   ├── services/            # Servicios reutilizables
 │   ├── middlewares/         # Autenticación y validaciones
 │   ├── validations/         # Esquemas de validación
 │   ├── utils/               # Utilidades y helpers
+│   ├── src/
+│   │   └── models/          # Modelos Sequelize
 │   └── index.js             # Punto de entrada
 │
 └── fs_frontend/             # Frontend React + Vite
@@ -159,7 +160,7 @@ npm install
 cp .env.example .env
 
 # 4. Configurar URL del backend
-# VITE_API_URL=http://localhost:3000
+# API_URL=http://localhost:3000 o la que uses
 
 # 5. Ejecutar servidor de desarrollo
 npm run dev
@@ -288,8 +289,24 @@ DELETE /api/ads/:id             - Eliminar anuncio
 ### Conexiones
 ```
 GET    /api/connections         - Listar conexiones del usuario
-POST   /api/connections         - Enviar solicitud de conexión
-PUT    /api/connections/:id     - Aceptar/rechazar solicitud
+PUT    /api/connections/:id/activate - Activar o desbloquear conexion
+PUT    /api/connections/:id/finish - Finalizar conexion
+PUT    /api/connections/:id/block - Bloquear conexion
+GET    /api/connections/check/:profileId - Verificar amistad
+```
+
+### Solicitudes y Reportes
+```
+POST   /api/requests            - Crear nueva solicitud/reporte
+POST   /api/requests/report     - Crear reporte de usuario
+GET    /api/requests/list       - Obtener listado de solicitudes
+GET    /api/requests/count      - Obtener contador de no leídas
+PUT    /api/requests/read-all   - Marcar todas como leídas
+GET    /api/requests/withoutread- Obtener solicitudes no leídas
+PUT    /api/requests/:id/accept - Aceptar solicitud
+PUT    /api/requests/:id/reject - Rechazar solicitud
+PUT    /api/requests/:id/invisible - Ocultar solicitud
+GET    /api/requests/check-pending/:receiverId - Comprobar si hay pendiente
 ```
 
 ### Mensajes
@@ -343,7 +360,7 @@ CLOUDINARY_SECRET=tu_cloudinary_secret
 ### Frontend (.env)
 
 ```env
-VITE_API_URL=http://localhost:3000
+API_URL=http://localhost:3000 o la que uses
 ```
 
 ---
@@ -355,14 +372,15 @@ VITE_API_URL=http://localhost:3000
 | Home | / | Página de inicio con feed |
 | Login | /login | Iniciar sesión |
 | Register | /register | Registro de nuevo usuario |
-| User Profile | /user/:id | Perfil de usuario |
-| Edit Profile | /user/edit | Editar perfil propio |
-| Ads | /ads | Tablón de anuncios |
-| Search Friends | /search | Buscar nuevos amigos |
-| Chats | /chats | Mensajería |
-| Admins | /admins | Gestión de admins (DEVELOPER) |
+| User Profile | /app/:id | Perfil de usuario |
+| Edit Profile | /app/user/edit | Editar perfil propio |
+| Ads | /app/ads | Tablón de anuncios |
+| Search Friends | /app/searchnewfriends | Buscar nuevos amigos |
+| Chats | /app/chats | Mensajería |
+| Requests | /app/requests | Solicitudes y Notificaciones |
+| Admins | /app/admins | Gestión de admins (DEVELOPER) |
 | Banned | /banned | Usuarios baneados |
-| Change Password | /change-password | Cambiar contraseña |
+| Change Password | /app/user/changePassword | Cambiar contraseña |
 
 ---
 
