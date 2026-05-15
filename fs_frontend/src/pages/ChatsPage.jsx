@@ -499,6 +499,13 @@ export default function ChatsPage() {
     socket.on("investigacion_finalizada", onInvestigacionFinalizada);
     socket.on("reporte_aceptado", onReporteAceptado);
 
+    const onConnect = () => {
+      if (openedConversationConnectionIdRef.current) {
+        socket.emit("join_chat", openedConversationConnectionIdRef.current);
+      }
+    };
+    socket.on("connect", onConnect);
+
     const onConexionBloqueada = ({ connectionId, blockedBy }) => {
       const iBlockedThem = blockedBy === loggedUser?.id;
       setConversationList((prev) =>
@@ -562,6 +569,7 @@ export default function ChatsPage() {
       socket.off("reporte_aceptado", onReporteAceptado);
       socket.off("conexion_bloqueada", onConexionBloqueada);
       socket.off("conexion_activada", onConexionActivada);
+      socket.off("connect", onConnect);
     };
   }, [socket, loggedUser]);
 
@@ -629,12 +637,20 @@ export default function ChatsPage() {
     }
     try {
       setIsSendingMessage(true);
-      await api.post(`/messages/${openedConversation.connectionId}/text`, {
+      const res = await api.post(`/messages/${openedConversation.connectionId}/text`, {
         body: messageInputText.trim(),
         reply_id: replyTargetMessage?.id || null,
       });
       setMessageInputText("");
       setReplyTargetMessage(null);
+      if (res.data?.ok && res.data?.datos) {
+        const newMessage = res.data.datos;
+        setMessageList((prev) => {
+          if (prev.find((m) => m.id === newMessage.id)) return prev;
+          return [...prev, newMessage];
+        });
+        setTimeout(() => scrollToBottom("smooth"), 50);
+      }
     } catch (error) {
       showError(
         "No se pudo enviar el mensaje.",
@@ -687,12 +703,19 @@ export default function ChatsPage() {
     formData.append("body", file.name);
     if (replyTargetMessage) formData.append("reply_id", replyTargetMessage.id);
     try {
-      await api.post(
+      const res = await api.post(
         `/messages/${openedConversation.connectionId}/media`,
         formData,
         { headers: { "Content-Type": "multipart/form-data" } },
       );
       setReplyTargetMessage(null);
+      if (res.data?.ok && res.data?.datos) {
+        const newMessage = res.data.datos;
+        setMessageList((prev) => {
+          if (prev.find((m) => m.id === newMessage.id)) return prev;
+          return [...prev, newMessage];
+        });
+      }
       setTimeout(() => scrollToBottom("smooth"), 50);
     } catch (error) {
       setMediaError("Error al enviar el archivo. Inténtalo de nuevo.");
