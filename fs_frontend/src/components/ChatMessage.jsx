@@ -6,6 +6,7 @@ import InsertDriveFileIcon from "@mui/icons-material/InsertDriveFile";
 import DownloadIcon from "@mui/icons-material/Download";
 import VideoFileIcon from "@mui/icons-material/VideoFile";
 import { useAppTheme } from "../hooks/useAppTheme";
+import api from "../utils/api";
 
 export default function ChatMessage({
   message,
@@ -28,12 +29,10 @@ export default function ChatMessage({
 
   const handleDownload = async (messageId, fileName) => {
     try {
-      const res = await fetch(
-        `${window.__APP_CONFIG__?.API_URL}/messages/${messageId}/download`,
-        { credentials: "include" },
-      );
-      const blob = await res.blob();
-      const blobUrl = URL.createObjectURL(blob);
+      const res = await api.get(`/messages/${messageId}/download`, {
+        responseType: "blob",
+      });
+      const blobUrl = URL.createObjectURL(res.data);
       const a = document.createElement("a");
       a.href = blobUrl;
       a.download = fileName || "archivo";
